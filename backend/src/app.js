@@ -1,5 +1,7 @@
 const express = require('express');
+
 const cors = require('cors');
+const mongoConnection = require('./database');
 const routes = require('./routes');
 
 class App {
@@ -8,6 +10,7 @@ class App {
 
     this.middlewares();
     this.routes();
+    this.database();
   }
 
   middlewares() {
@@ -17,6 +20,10 @@ class App {
 
   routes() {
     this.server.use(routes);
+  }
+
+  database() {
+    mongoConnection();
   }
 }
 

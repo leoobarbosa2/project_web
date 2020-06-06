@@ -1,6 +1,8 @@
 const express = require('express');
+require('express-async-errors');
 
 const cors = require('cors');
+const { handleError } = require('./shared/errors/AppError');
 const mongoConnection = require('./database');
 const routes = require('./routes');
 
@@ -10,6 +12,7 @@ class App {
 
     this.middlewares();
     this.routes();
+    this.errorHandler();
     this.database();
   }
 
@@ -24,6 +27,12 @@ class App {
 
   database() {
     mongoConnection();
+  }
+
+  errorHandler() {
+    this.server.use((err, req, res, next) => {
+      handleError(err, res);
+    });
   }
 }
 

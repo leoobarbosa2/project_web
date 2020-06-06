@@ -2,6 +2,11 @@ const express = require('express');
 
 const routes = express.Router();
 
-routes.get('/', (req, res) => res.json({ message: 'Hello World' }));
+const UserController = require('./controllers/UserController');
+const SessionController = require('./controllers/SessionController');
+
+routes.post('/sessions', SessionController.store);
+
+routes.post('/users', UserController.store);
 
 module.exports = routes;

@@ -24,6 +24,8 @@ const UserSchema = new Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
+    lowercase: true,
   },
   password: {
     type: String,
@@ -31,6 +33,7 @@ const UserSchema = new Schema({
   },
 });
 
+// Password hash before save
 UserSchema.pre('save', async function save(next) {
   try {
     this.password = await bcrypt.hash(this.password, 8);
@@ -40,6 +43,7 @@ UserSchema.pre('save', async function save(next) {
   }
 });
 
+// Validating password passed
 UserSchema.methods.validatePassword = function validatePassowrd(password) {
   return bcrypt.compare(password, this.password);
 };
